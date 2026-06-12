@@ -1,0 +1,48 @@
+# Python
+.venv/
+venv/
+backend/.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.vite/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!sample.env.example
+
+# Runtime files
+*.log
+logs/
+backend/temp_uploads/*
+!backend/temp_uploads/.gitkeep
+
+# Local model artifacts
+backend/models/*
+!backend/models/.gitkeep
+*.zip
+*.safetensors
+
+# OS/editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local scratch files
+commands.txt
