@@ -1,91 +1,120 @@
-import type { ReactNode } from "react";
-import { FileAudio2, GitBranch, ListChecks, Mic2, Waves } from "lucide-react";
+import { AudioLines, FileAudio2, GitBranch, Gauge, Mic2, SlidersHorizontal, Waves } from "lucide-react";
 import type { PredictionResult } from "../api";
 
 type Props = {
   result: PredictionResult | null;
 };
 
-const steps = [
-  {
-    title: "Audio upload",
-    text: "The clip is loaded and normalized for analysis.",
+const flowNodes = {
+  upload: {
+    title: "Upload",
+    text: "User uploads WAV, MP3, FLAC, OGG, or M4A audio.",
     icon: FileAudio2,
   },
-  {
-    title: "Speech ratio check",
-    text: "A VAD-based router estimates how speech-heavy the clip is.",
-    icon: ListChecks,
+  normalize: {
+    title: "Normalize",
+    text: "Audio is converted to mono, resampled to 16 kHz, and prepared for model input.",
+    icon: SlidersHorizontal,
   },
-  {
-    title: "Specialist model selection",
-    text: "The system chooses WavLM for speech or AST for environmental/background audio.",
+  route: {
+    title: "Route",
+    text: "A speech/background router estimates whether the clip is speech-heavy or environmental.",
     icon: GitBranch,
   },
-];
+  speech: {
+    title: "Speech Branch",
+    text: "Speech-heavy clips use WavLM Speech v2 NaturalSpeech.",
+    icon: Mic2,
+  },
+  environmental: {
+    title: "Environmental Branch",
+    text: "Background or non-speech clips use AST EnvSDD.",
+    icon: Waves,
+  },
+  probabilities: {
+    title: "Probabilities",
+    text: "The selected model returns real and fake probabilities.",
+    icon: Gauge,
+  },
+  result: {
+    title: "Result",
+    text: "The UI displays Likely Real, Likely AI-Generated, or Uncertain with confidence and model details.",
+    icon: AudioLines,
+  },
+};
 
 export function RouterExplainer({ result }: Props) {
-  const selected = result?.selected_model;
+  const selectedBranch = result?.selected_branch;
 
   return (
     <section className="router-section" id="how-it-works">
       <div className="section-title">
-        <span className="eyebrow">How it works</span>
-        <h2>How EchoGuard routes audio</h2>
-        <p>A simple routing layer sends each upload to the model branch that best matches the audio type.</p>
+        <span className="eyebrow">Processing flow</span>
+        <h2>How EchoGuard Processes Audio</h2>
+        <p>
+          Each upload moves through routing, branch-specific preprocessing, model inference, and
+          probability-based reporting.
+        </p>
       </div>
 
-      <div className="step-grid">
-        {steps.map((step, index) => {
-          const Icon = step.icon;
-          return (
-            <article className="card step-card" key={step.title}>
-              <div className="step-index">{index + 1}</div>
-              <Icon size={20} />
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </article>
-          );
-        })}
+      <div className="flow-diagram" aria-label="EchoGuard audio processing flow">
+        <FlowNode node={flowNodes.upload} />
+        <FlowConnector />
+        <FlowNode node={flowNodes.normalize} />
+        <FlowConnector />
+        <FlowNode node={flowNodes.route} active={result?.router_decision === "uncertain/mixed"} />
+
+        <div className="flow-split" aria-hidden="true">
+          <span />
+          <span />
+        </div>
+
+        <div className="flow-branches">
+          <FlowNode node={flowNodes.speech} active={selectedBranch === "speech"} branch />
+          <FlowNode node={flowNodes.environmental} active={selectedBranch === "environmental"} branch />
+        </div>
+
+        <div className="flow-merge" aria-hidden="true">
+          <span />
+          <span />
+        </div>
+
+        <div className="flow-tail">
+          <FlowNode node={flowNodes.probabilities} />
+          <FlowConnector />
+          <FlowNode node={flowNodes.result} />
+        </div>
       </div>
 
-      <div className="branch-grid">
-        <BranchCard
-          active={selected === "speech_wavlm"}
-          icon={<Mic2 size={20} />}
-          title="Speech-heavy audio"
-          model="WavLM Speech Branch"
-        />
-        <BranchCard
-          active={selected === "environmental_ast"}
-          icon={<Waves size={20} />}
-          title="Environmental/background audio"
-          model="AST Environmental Branch"
-        />
-      </div>
+      <aside className="flow-note">
+        Confidence below 75% is displayed as Uncertain. Raw real/fake probabilities remain visible
+        so users can inspect borderline cases.
+      </aside>
     </section>
   );
 }
 
-function BranchCard({
-  active,
-  icon,
-  title,
-  model,
+function FlowNode({
+  node,
+  active = false,
+  branch = false,
 }: {
-  active: boolean;
-  icon: ReactNode;
-  title: string;
-  model: string;
+  node: { title: string; text: string; icon: typeof FileAudio2 };
+  active?: boolean;
+  branch?: boolean;
 }) {
+  const Icon = node.icon;
   return (
-    <article className={`card branch-card ${active ? "selected" : ""}`}>
-      <div className="branch-dot" />
-      <div className="branch-icon">{icon}</div>
-      <div>
-        <span>{title}</span>
-        <strong>{model}</strong>
+    <article className={`flow-node ${active ? "active" : ""} ${branch ? "branch-node" : ""}`}>
+      <div className="flow-node-top">
+        <Icon size={18} />
+        <h3>{node.title}</h3>
       </div>
+      <p>{node.text}</p>
     </article>
   );
+}
+
+function FlowConnector() {
+  return <div className="flow-connector" aria-hidden="true" />;
 }

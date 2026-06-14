@@ -1,91 +1,129 @@
 # EchoGuard AI
 
-EchoGuard AI is a local two-branch audio authenticity screening app. It routes uploaded audio to a specialist model based on speech content, then returns a model-based probability estimate with confidence, probabilities, route details, and a frequency-time spectrogram view.
+EchoGuard AI is a two-branch audio authenticity screening app. It routes uploaded audio to a speech or environmental/background branch, then returns a probabilistic result with confidence, raw probabilities, router details, model information, and a frequency-time spectrogram view.
 
-EchoGuard AI is an AI screening tool, not forensic proof.
+EchoGuard AI provides probabilistic screening results only. It does not verify, prove, or certify whether audio is real or fake. Results should not be used as the sole basis for legal, disciplinary, emergency, or safety-critical decisions.
+
+## Active Local Models
+
+Place both ZIP files in the project root:
+
+```text
+echoguard_wavlm_speech_v2_naturalspeech.zip
+echoguard_ast_shard001.zip
+```
+
+The backend extracts and loads them automatically into `backend/models/`. Extracted model folders, ZIP files, `.safetensors`, virtual environments, frontend builds, and temp uploads are ignored by Git.
+
+Model collection: [EchoGuard AI artifacts on Kaggle](https://www.kaggle.com/work/collections/18566631)
 
 ## What It Does
 
-- Accepts common audio files: WAV, MP3, FLAC, OGG, and M4A.
-- Estimates speech ratio with a VAD-based router.
-- Routes speech-heavy clips to a WavLM speech branch.
-- Routes environmental/background clips to an AST environmental branch.
-- Returns likely real, likely AI-generated, or uncertain frontend wording based on confidence.
-- Shows confidence, real/fake probabilities, selected model, audio type, speech ratio, duration, explanation, and spectrogram.
+- Accepts WAV, MP3, FLAC, OGG, and M4A audio.
+- Converts uploaded audio to 16 kHz mono and normalizes it safely.
+- Uses a VAD-based router to estimate speech content.
+- Routes speech-heavy clips to Speech v2 WavLM NaturalSpeech.
+- Routes mostly environmental/background clips to AST EnvSDD.
+- Shows Likely Real, Likely AI-Generated, or Uncertain using a 75% confidence display threshold.
+- Keeps raw real/fake probabilities visible.
 
 ## Architecture
 
 ```text
 Uploaded audio
--> Audio router
--> Speech WavLM branch or Environmental AST branch
--> AI screening result
+-> VAD-based router
+-> Speech v2 WavLM NaturalSpeech or AST EnvSDD
+-> Probabilistic screening result
 ```
 
-The v1 router uses this rule:
+Current routing rule:
 
 ```text
-speech_ratio >= 0.30 -> speech_wavlm
-speech_ratio < 0.30  -> environmental_ast
+speech_ratio >= 0.30 -> speech branch
+speech_ratio < 0.30  -> environmental branch
 ```
 
-## Model Metrics
+Borderline clips are marked as `uncertain/mixed`, while still using the best matching branch.
 
-### Environmental Branch
-
-- Model: AST, based on `MIT/ast-finetuned-audioset-10-10-0.4593`
-- Dataset: EnvSDD
-- Task: real vs AI-generated environmental/background audio
-- Training set: 70,000 balanced EnvSDD clips, 35,000 real and 35,000 fake
-- Total training audio represented: 77.8 hours
-- Unseen-shard performance: F1 around 0.997 to 0.9985
-- Status: Strong v1
-
-Selected EnvSDD results:
-
-| Evaluation | Accuracy | F1 | Notes |
-| --- | ---: | ---: | --- |
-| Shard 002 validation | 0.9980 | 0.9980 | 4 real clips predicted fake, 0 fake clips missed |
-| Shard 007 validation | 0.9985 | 0.9985 | Stable on unseen shard |
-| Shard 003 full shard | 0.9978 | 0.9978 | 10,000 samples |
-| Shard 006 full shard | 0.9971 | 0.9971 | 10,000 samples |
+## Model Coverage & Evaluation
 
 ### Speech Branch
 
-- Model: WavLM Base, based on `microsoft/wavlm-base`
-- Dataset: FoR for-norm
-- Task: real human speech vs fake/generated speech
-- Training shard: 10,000 balanced clips from FoR for-norm
-- Unseen-shard performance: F1 0.971 on FoR shard 002 validation
-- Status: Stable v1
+- Model: `EchoGuard WavLM Speech v2 NaturalSpeech`
+- Artifact: `echoguard_wavlm_speech_v2_naturalspeech.zip`
+- Base: `microsoft/wavlm-base`
+- Format: 4 seconds, 16 kHz, mono, 16-bit WAV
+- Training data: native English real speech plus modern AI-generated voices, including ElevenLabs, ChatGPT/OpenAI-style voices, Claude-style generated speech, and similar new-generation synthetic speech sources.
 
-Selected FoR shard 002 validation results:
+Training split:
 
-| Accuracy | F1 | Precision | Recall |
-| ---: | ---: | ---: | ---: |
-| 0.972 | 0.971 | 0.994 | 0.950 |
+| Split | Clips | Real | Fake |
+| --- | ---: | ---: | ---: |
+| Train | 2,114 | 1,057 | 1,057 |
+| Validation | 372 | 186 | 186 |
 
-Confusion matrix:
+Full unseen test:
 
-```text
-[[994, 6],
- [50, 950]]
-```
-
-The speech branch is precise when predicting fake/generated speech, but it can miss some fake samples.
-
-## Model Artifacts
-
-Model artifacts are not committed to GitHub. Place these ZIP files locally in the project root:
+| Clips | Accuracy | F1 | Precision | Recall |
+| ---: | ---: | ---: | ---: | ---: |
+| 344 | 81.69% | 78.64% | 94.31% | 67.44% |
 
 ```text
-echoguard_ast_shard001.zip
-echoguard_wavlm_speech_shard001.zip
+[[165, 7],
+ [56, 116]]
 ```
 
-On startup, the backend extracts them into `backend/models/` if the model folders are missing. The extracted model folders and ZIP files are ignored by Git.
+The model performed well on real unseen audio but missed one difficult unseen fake source that closely resembled real human speech.
 
-Model collection: [EchoGuard AI artifacts on Kaggle](https://www.kaggle.com/work/collections/18566631)
+Filtered unseen test, excluding one hard fake source:
+
+| Clips | Accuracy | F1 | Precision | Recall |
+| ---: | ---: | ---: | ---: | ---: |
+| 287 | 97.56% | 97.05% | 94.26% | 100% |
+
+```text
+[[165, 7],
+ [0, 115]]
+```
+
+This stronger filtered result is shown for context, but the full unseen result should not be hidden.
+
+### Environmental Branch
+
+- Model: `EchoGuard AST EnvSDD Environmental Audio Model`
+- Artifact: `echoguard_ast_shard001.zip`
+- Base: `MIT/ast-finetuned-audioset-10-10-0.4593`
+- Dataset: EnvSDD Environmental Sound Deepfake Detection
+- Training: balanced EnvSDD shard 001, 10,000 clips total, 5,000 real and 5,000 fake
+
+Shard 001 validation:
+
+| Epoch | Accuracy | F1 |
+| ---: | ---: | ---: |
+| 1 | 98.70% | 98.69% |
+| 2 | 99.45% | 99.45% |
+| 3 | 99.60% | 99.60% |
+| 4 | 99.80% | 99.80% |
+| 5 | 99.70% | 99.70% |
+
+Cross-shard generalization:
+
+| Evaluation | Samples | Accuracy | F1 | Precision | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Shard 002 validation | 2,000 | 99.80% | 99.80% | 99.60% | 100% |
+| Shard 007 validation | 2,000 | 99.85% | 99.85% | 99.90% | 99.80% |
+| Shard 003 full test | 10,000 | 99.78% | 99.78% | 99.70% | 99.86% |
+| Shard 006 full test | 10,000 | 99.71% | 99.71% | 99.62% | 99.80% |
+
+## Important Limitations
+
+The speech branch is tuned for native English speaker audio and modern AI-generated voice samples, including voice styles similar to ElevenLabs, ChatGPT/OpenAI-style voice generation, Claude-style generated speech, and other new-generation synthetic speech sources.
+
+One hard unseen synthetic voice source was found to closely resemble real speech and reduced full unseen-test performance. This is reported transparently as a known limitation.
+
+The environmental branch is trained for general environmental/background audio such as ambience, urban sounds, crowds, traffic, and general non-speech sound events.
+
+The environmental branch should not be used as proof for legal, emergency, military, accident, or crisis-related audio verification.
 
 ## Project Structure
 
@@ -111,12 +149,6 @@ EchoGuardAi-App/
 |-- README.md
 `-- sample.env.example
 ```
-
-## Requirements
-
-- Python 3.11 recommended
-- Node.js 18+
-- Local model ZIP artifacts in the project root
 
 ## Run Backend
 
@@ -166,7 +198,3 @@ See [docs/API.md](docs/API.md).
 ## Detailed Model Notes
 
 See [docs/MODEL_NOTES.md](docs/MODEL_NOTES.md).
-
-## Safe Use
-
-EchoGuard AI should be described as an audio authenticity screening system for speech and general environmental/background audio. Results are model-based probability estimates and should be interpreted carefully.

@@ -71,13 +71,19 @@ def models() -> dict:
     return {
         "environmental": {
             "name": ENVIRONMENTAL_MODEL["name"],
+            "version": ENVIRONMENTAL_MODEL["version"],
             "artifact": ENVIRONMENTAL_MODEL["artifact"],
             "task": ENVIRONMENTAL_MODEL["task"],
+            "metrics": ENVIRONMENTAL_MODEL["metrics"],
+            "limitations": ENVIRONMENTAL_MODEL["limitations"],
         },
         "speech": {
             "name": SPEECH_MODEL["name"],
+            "version": SPEECH_MODEL["version"],
             "artifact": SPEECH_MODEL["artifact"],
             "task": SPEECH_MODEL["task"],
+            "metrics": SPEECH_MODEL["metrics"],
+            "limitations": SPEECH_MODEL["limitations"],
         },
     }
 

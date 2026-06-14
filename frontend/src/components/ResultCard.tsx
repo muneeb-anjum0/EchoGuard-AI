@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { AlertTriangle, CheckCircle2, CircleHelp, Clock3, Gauge, GitBranch, RadioTower } from "lucide-react";
+import { AlertTriangle, CheckCircle2, CircleHelp, Clock3, Gauge, GitBranch, RadioTower, Route } from "lucide-react";
 import type { PredictionResult } from "../api";
 import { ProbabilityBars } from "./ProbabilityBars";
 
@@ -25,13 +25,16 @@ export function ResultCard({ result }: Props) {
 
   const confidenceValue = getConfidence(result);
   const confidencePercent = confidenceValue * 100;
-  const label = getDisplayLabel(result, confidenceValue);
+  const label = result.display_label ?? getDisplayLabel(result, confidenceValue);
   const level = getConfidenceLevel(confidenceValue);
   const tone = label === "Likely Real" ? "real" : label === "Likely AI-Generated" ? "fake" : "uncertain";
-  const selectedModel = formatSelectedModel(result.selected_model);
-  const audioType = result.audio_type ? String(result.audio_type) : "Unknown";
+  const selectedBranch = result.selected_branch ?? result.audio_type ?? "Unknown";
+  const selectedModel = result.model_name ?? formatSelectedModel(result.selected_model);
+  const routerDecision = result.router_decision ?? selectedBranch;
   const duration = typeof result.duration_sec === "number" ? `${result.duration_sec.toFixed(2)}s` : "Unknown";
   const speechRatio = typeof result.speech_ratio === "number" ? `${(result.speech_ratio * 100).toFixed(1)}%` : "Unknown";
+  const realProbability = result.real_probability ?? result.real_prob ?? 0;
+  const fakeProbability = result.fake_probability ?? result.fake_prob ?? 0;
 
   return (
     <section className={`card result-card result-${tone} result-enter`}>
@@ -58,23 +61,31 @@ export function ResultCard({ result }: Props) {
         <p className="care-note">Low confidence results should be interpreted carefully.</p>
       )}
 
-      <ProbabilityBars real={result.real_prob ?? 0} fake={result.fake_prob ?? 0} />
+      <ProbabilityBars real={realProbability} fake={fakeProbability} />
 
       <div className="detail-grid">
-        <Detail icon={<GitBranch size={17} />} label="Selected model" value={selectedModel} />
-        <Detail icon={<RadioTower size={17} />} label="Audio type" value={audioType} />
+        <Detail icon={<GitBranch size={17} />} label="Selected branch" value={String(selectedBranch)} />
+        <Detail icon={<RadioTower size={17} />} label="Model used" value={selectedModel} />
+        <Detail icon={<Route size={17} />} label="Router decision" value={String(routerDecision)} />
         <Detail icon={<Gauge size={17} />} label="Speech ratio" value={speechRatio} />
         <Detail icon={<Clock3 size={17} />} label="Duration" value={duration} />
       </div>
 
       <div className="explanation-card">
-        <span>Explanation</span>
-        <p>{result.explanation ?? "The backend returned a model-based probability estimate for this clip."}</p>
+        <span>Short explanation</span>
+        <p>{result.router_explanation ?? result.explanation ?? "The backend returned a model-based probability estimate for this clip."}</p>
       </div>
 
+      {result.key_limitation && (
+        <div className="explanation-card">
+          <span>Key limitation</span>
+          <p>{result.key_limitation}</p>
+        </div>
+      )}
+
       <p className="disclaimer">
-        EchoGuard AI is an AI screening tool, not forensic proof. Results are model-based probability
-        estimates and should be interpreted carefully.
+        {result.note ??
+          "EchoGuard AI provides probabilistic screening results only. It does not verify, prove, or certify whether audio is real or fake."}
       </p>
     </section>
   );
@@ -103,7 +114,7 @@ function Detail({ icon, label, value }: { icon: ReactNode; label: string; value:
 }
 
 function getConfidence(result: PredictionResult) {
-  const fallback = Math.max(result.real_prob ?? 0, result.fake_prob ?? 0);
+  const fallback = Math.max(result.real_probability ?? result.real_prob ?? 0, result.fake_probability ?? result.fake_prob ?? 0);
   return clamp01(result.confidence ?? fallback);
 }
 
@@ -136,12 +147,12 @@ function getConfidenceLevel(confidence: number) {
 }
 
 function formatSelectedModel(model: string | undefined) {
-  if (model === "speech_wavlm") {
-    return "WavLM Speech Branch";
+  if (model === "echoguard_wavlm_speech_v2_naturalspeech") {
+    return "EchoGuard WavLM Speech v2 NaturalSpeech";
   }
 
-  if (model === "environmental_ast") {
-    return "AST Environmental Branch";
+  if (model === "echoguard_ast_shard001") {
+    return "EchoGuard AST EnvSDD Environmental Audio Model";
   }
 
   return "Unknown";

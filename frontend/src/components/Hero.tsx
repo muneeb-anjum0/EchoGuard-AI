@@ -15,8 +15,8 @@ export function Hero({ onAnalyzeClick, onStackClick }: Props) {
           Clean audio authenticity screening for speech and environmental sound.
         </p>
         <p className="hero-body">
-          Upload an audio clip. EchoGuard AI routes it to the right specialist model: WavLM for
-          speech or AST for environmental/background audio.
+          Upload an audio clip. EchoGuard AI routes it to the right specialist model: Speech v2
+          WavLM NaturalSpeech for speech or AST EnvSDD for environmental/background audio.
         </p>
         <div className="hero-actions">
           <button className="button-primary" onClick={onAnalyzeClick}>
@@ -57,8 +57,8 @@ export function Hero({ onAnalyzeClick, onStackClick }: Props) {
         </div>
 
         <div className="hero-pills">
-          <span>Speech: WavLM</span>
-          <span>Environmental: AST</span>
+            <span>Speech: WavLM</span>
+          <span>Environmental: AST EnvSDD</span>
           <span>Router: VAD</span>
         </div>
       </div>

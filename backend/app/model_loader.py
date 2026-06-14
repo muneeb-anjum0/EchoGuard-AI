@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class LoadedAudioModel:
     key: str
+    spec: dict
     model_dir: Path
     feature_extractor: object
     model: object
@@ -43,7 +44,7 @@ class ModelRegistry:
         model = AutoModelForAudioClassification.from_pretrained(str(model_dir), local_files_only=True)
         model.to(self.device)
         model.eval()
-        return LoadedAudioModel(spec["key"], model_dir, extractor, model)
+        return LoadedAudioModel(spec["key"], spec, model_dir, extractor, model)
 
 
 def resolve_or_extract_model(artifact_name: str, target_dir: Path) -> Path:
@@ -62,7 +63,8 @@ def resolve_or_extract_model(artifact_name: str, target_dir: Path) -> Path:
     extracted = find_hf_model_dir(target_dir)
     if not extracted:
         raise FileNotFoundError(
-            f"Could not find config.json, model.safetensors, and preprocessor_config.json inside {artifact_name}"
+            "Could not find config.json, preprocessor_config.json, and model.safetensors "
+            f"or pytorch_model.bin inside {artifact_name}"
         )
     return extracted
 
@@ -70,8 +72,12 @@ def resolve_or_extract_model(artifact_name: str, target_dir: Path) -> Path:
 def find_hf_model_dir(root: Path) -> Path | None:
     if not root.exists():
         return None
-    required = {"config.json", "model.safetensors", "preprocessor_config.json"}
+    required = {"config.json", "preprocessor_config.json"}
+    weight_files = {"model.safetensors", "pytorch_model.bin"}
     for path in [root, *root.rglob("*")]:
-        if path.is_dir() and required.issubset({child.name for child in path.iterdir()}):
+        if not path.is_dir():
+            continue
+        child_names = {child.name for child in path.iterdir()}
+        if required.issubset(child_names) and child_names.intersection(weight_files):
             return path
     return None

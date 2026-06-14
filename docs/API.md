@@ -10,8 +10,6 @@ http://localhost:8000
 
 Basic service status.
 
-Response:
-
 ```json
 {
   "app": "EchoGuard AI",
@@ -23,8 +21,6 @@ Response:
 
 Returns backend and model load status.
 
-Response:
-
 ```json
 {
   "status": "ok",
@@ -35,23 +31,13 @@ Response:
 
 ## GET /models
 
-Returns metadata for both model branches.
+Returns metadata, metrics, and limitations for both active model branches.
 
-Response shape:
+Active artifacts:
 
-```json
-{
-  "environmental": {
-    "name": "AST",
-    "artifact": "echoguard_ast_shard001.zip",
-    "task": "real vs AI-generated environmental/background audio"
-  },
-  "speech": {
-    "name": "WavLM",
-    "artifact": "echoguard_wavlm_speech_shard001.zip",
-    "task": "real human speech vs fake/generated speech"
-  }
-}
+```text
+echoguard_wavlm_speech_v2_naturalspeech.zip
+echoguard_ast_shard001.zip
 ```
 
 ## POST /predict
@@ -78,16 +64,37 @@ Response shape:
   "duration_sec": 4.0,
   "audio_type": "speech",
   "speech_ratio": 0.82,
-  "selected_model": "speech_wavlm",
+  "threshold_used": 0.3,
+  "selected_branch": "speech",
+  "selected_model": "echoguard_wavlm_speech_v2_naturalspeech",
+  "model_name": "EchoGuard WavLM Speech v2 NaturalSpeech",
+  "model_version": "speech_v2_naturalspeech",
+  "model_artifact": "echoguard_wavlm_speech_v2_naturalspeech.zip",
+  "model_path": "backend/models/speech_wavlm_v2_naturalspeech/...",
   "prediction": "fake",
+  "display_label": "Likely AI-Generated",
   "confidence": 0.94,
+  "real_probability": 0.06,
+  "fake_probability": 0.94,
   "real_prob": 0.06,
   "fake_prob": 0.94,
-  "threshold_used": 0.3,
-  "explanation": "Speech was detected in the audio, so the WavLM speech deepfake detector was used.",
-  "note": "This is an AI screening result, not forensic proof.",
+  "router_decision": "speech",
+  "router_explanation": "Speech-like audio detected, routed to WavLM speech authenticity model.",
+  "explanation": "Speech-like audio detected, routed to WavLM speech authenticity model.",
+  "metrics": {},
+  "limitations": [],
+  "key_limitation": "Tuned for native English speaker audio and modern AI-generated voice samples.",
+  "note": "EchoGuard AI provides probabilistic screening results only...",
   "spectrogram_png": "..."
 }
+```
+
+Display labels use this rule:
+
+```text
+confidence < 0.75 -> Uncertain
+prediction real   -> Likely Real
+prediction fake   -> Likely AI-Generated
 ```
 
 ## POST /spectrogram

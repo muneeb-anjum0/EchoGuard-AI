@@ -9,7 +9,6 @@ import { Navbar } from "./components/Navbar";
 import { ResultCard } from "./components/ResultCard";
 import { RouterExplainer } from "./components/RouterExplainer";
 import { SoftBackground } from "./components/SoftBackground";
-import { SupportedAudio } from "./components/SupportedAudio";
 import { UploadCard } from "./components/UploadCard";
 
 export default function App() {
@@ -94,16 +93,12 @@ export default function App() {
 
         <section className="limitations-section" ref={limitationsRef} id="limitations">
           <div className="section-title">
-            <span className="eyebrow">Limitations</span>
-            <h2>Limitations</h2>
+            <h2>Important Limitations</h2>
             <p>
-              Clear boundaries for interpreting EchoGuard AI as a model-based screening tool.
+              Clear boundaries for interpreting EchoGuard AI as a probabilistic screening tool.
             </p>
           </div>
-          <div className="bottom-grid">
-          <SupportedAudio />
           <Limitations />
-          </div>
         </section>
       </main>
     </div>
