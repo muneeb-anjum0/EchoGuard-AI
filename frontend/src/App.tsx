@@ -93,9 +93,9 @@ export default function App() {
 
         <section className="limitations-section" ref={limitationsRef} id="limitations">
           <div className="section-title">
-            <h2>Important Limitations</h2>
+            <h2>Most Obvious Questions</h2>
             <p>
-              Clear boundaries for interpreting EchoGuard AI as a probabilistic screening tool.
+              Quick answers about what EchoGuard AI can and cannot tell you.
             </p>
           </div>
           <Limitations />

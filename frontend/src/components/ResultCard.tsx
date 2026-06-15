@@ -85,7 +85,7 @@ export function ResultCard({ result }: Props) {
 
       <p className="disclaimer">
         {result.note ??
-          "EchoGuard AI provides probabilistic screening results only. It does not verify, prove, or certify whether audio is real or fake."}
+          "EchoGuard AI provides probabilistic screening results only. It does not make a final determination about whether audio is real or fake."}
       </p>
     </section>
   );

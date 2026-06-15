@@ -14,7 +14,7 @@ export function Navbar({ onAnalyzeClick, onModelsClick, onHowClick, onLimitation
       <div className="nav-links">
         <button onClick={onModelsClick}>Models</button>
         <button onClick={onHowClick}>How it works</button>
-        <button onClick={onLimitationsClick}>Limitations</button>
+        <button onClick={onLimitationsClick}>Obvious Q's</button>
         <button onClick={onAnalyzeClick}>Run Analysis</button>
       </div>
     </nav>

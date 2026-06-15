@@ -42,8 +42,6 @@ const models = [
       ["Shard 003 full test", "10,000 samples, 99.78% accuracy, 99.78% F1"],
       ["Shard 006 full test", "10,000 samples, 99.71% accuracy, 99.71% F1"],
     ],
-    note:
-      "For general environmental/background audio only, not legal, emergency, military, accident, crisis, or CCTV evidence verification.",
   },
 ];
 
@@ -63,34 +61,46 @@ export function ModelStack() {
         {models.map((item) => {
           const Icon = item.icon;
           return (
-            <article className="card model-card editorial-model-card" key={item.title}>
-              <header className="editorial-model-header">
-                <div>
-                  <span>{item.eyebrow}</span>
-                  <h3>{item.title}</h3>
-                </div>
-                <Icon size={22} />
-              </header>
+            <article className="model-flip-card" key={item.title} tabIndex={0}>
+              <div className="model-flip-inner">
+                <section className="card model-card editorial-model-card model-flip-face model-flip-front">
+                  <header className="editorial-model-header">
+                    <div>
+                      <span>{item.eyebrow}</span>
+                      <h3>{item.title}</h3>
+                    </div>
+                    <Icon size={22} />
+                  </header>
 
-              <dl className="model-facts">
-                {item.fields.map(([label, value]) => (
-                  <div key={label}>
-                    <dt>{label}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
+                  <dl className="model-facts">
+                    {item.fields.map(([label, value]) => (
+                      <div key={label}>
+                        <dt>{label}</dt>
+                        <dd>{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
 
-              <div className="model-metrics-table">
-                {item.metrics.map(([label, value]) => (
-                  <div className="model-metric-row" key={label}>
-                    <span>{label}</span>
-                    <strong>{value}</strong>
+                <section className="card model-card editorial-model-card model-flip-face model-flip-back">
+                  <header className="editorial-model-header">
+                    <div>
+                      <span>{item.eyebrow}</span>
+                      <h3>Evaluation</h3>
+                    </div>
+                    <Icon size={22} />
+                  </header>
+
+                  <div className="model-metrics-table">
+                    {item.metrics.map(([label, value]) => (
+                      <div className="model-metric-row" key={label}>
+                        <span>{label}</span>
+                        <strong>{value}</strong>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </section>
               </div>
-
-              {item.note && <p className="model-note">{item.note}</p>}
             </article>
           );
         })}
