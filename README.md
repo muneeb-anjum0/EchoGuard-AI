@@ -1,129 +1,80 @@
 # EchoGuard AI
 
-EchoGuard AI is a two-branch audio authenticity screening app. It routes uploaded audio to a speech or environmental/background branch, then returns a probabilistic result with confidence, raw probabilities, router details, model information, and a frequency-time spectrogram view.
+![Local inference](https://img.shields.io/badge/inference-local-60A5FA)
+![Backend](https://img.shields.io/badge/backend-FastAPI-60A5FA)
+![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-60A5FA)
 
-EchoGuard AI provides probabilistic screening results only. It does not verify, prove, or certify whether audio is real or fake. Results should not be used as the sole basis for legal, disciplinary, emergency, or safety-critical decisions.
+EchoGuard AI is a two-branch audio authenticity screening app for speech and environmental/background audio. It uses local ML models, not external AI APIs, to estimate whether an uploaded clip is likely real or likely AI-generated. The app returns probability-based output with router details, model information, limitations, metrics, and a frequency-time spectrogram view.
+
+<span style="color:#60A5FA"><strong>EchoGuard AI provides probabilistic screening results only.</strong></span> It does not verify, prove, or certify whether audio is real or fake. Results should not be used as the sole basis for legal, disciplinary, emergency, or safety-critical decisions.
+
+## Core Features
+
+- Upload WAV, MP3, FLAC, OGG, and M4A audio.
+- Automatic speech/environmental routing using a speech-ratio router.
+- Speech branch using WavLM Speech v2 NaturalSpeech.
+- Environmental branch using AST EnvSDD.
+- Real/fake probability output with raw probabilities kept visible.
+- Display labels: Likely Real, Likely AI-Generated, or Uncertain.
+- Router decision, explanation, active model details, and model metrics in the UI.
+- Frequency-time spectrogram view after analysis.
+- Fully local model inference after setup.
 
 ## Active Local Models
 
 Place both ZIP files in the project root:
 
-```text
-echoguard_wavlm_speech_v2_naturalspeech.zip
-echoguard_ast_shard001.zip
+| Branch | Active artifact |
+| --- | --- |
+| Speech | `echoguard_wavlm_speech_v2_naturalspeech.zip` |
+| Environmental | `echoguard_ast_shard001.zip` |
+
+The backend extracts and loads these artifacts automatically into `backend/models/`. ZIP files, extracted model folders, `.safetensors` files, temporary uploads, virtual environments, and frontend builds are ignored by Git.
+
+Large model artifacts can be hosted externally, for example on Kaggle. Do not commit model ZIPs or `.safetensors` files to GitHub.
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11 recommended
+- Node.js for the frontend
+- Active model ZIP files placed in the project root
+
+### Run Backend
+
+```powershell
+cd backend
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-The backend extracts and loads them automatically into `backend/models/`. Extracted model folders, ZIP files, `.safetensors`, virtual environments, frontend builds, and temp uploads are ignored by Git.
+### Run Frontend
 
-Model collection: [EchoGuard AI artifacts on Kaggle](https://www.kaggle.com/work/collections/18566631)
-
-## What It Does
-
-- Accepts WAV, MP3, FLAC, OGG, and M4A audio.
-- Converts uploaded audio to 16 kHz mono and normalizes it safely.
-- Uses a VAD-based router to estimate speech content.
-- Routes speech-heavy clips to Speech v2 WavLM NaturalSpeech.
-- Routes mostly environmental/background clips to AST EnvSDD.
-- Shows Likely Real, Likely AI-Generated, or Uncertain using a 75% confidence display threshold.
-- Keeps raw real/fake probabilities visible.
-
-## Architecture
-
-```text
-Uploaded audio
--> VAD-based router
--> Speech v2 WavLM NaturalSpeech or AST EnvSDD
--> Probabilistic screening result
+```powershell
+cd frontend
+npm install
+npm run dev
 ```
 
-Current routing rule:
+Open:
 
 ```text
-speech_ratio >= 0.30 -> speech branch
-speech_ratio < 0.30  -> environmental branch
+http://localhost:5173
 ```
 
-Borderline clips are marked as `uncertain/mixed`, while still using the best matching branch.
+### Run Both
 
-## Model Coverage & Evaluation
-
-### Speech Branch
-
-- Model: `EchoGuard WavLM Speech v2 NaturalSpeech`
-- Artifact: `echoguard_wavlm_speech_v2_naturalspeech.zip`
-- Base: `microsoft/wavlm-base`
-- Format: 4 seconds, 16 kHz, mono, 16-bit WAV
-- Training data: native English real speech plus modern AI-generated voices, including ElevenLabs, ChatGPT/OpenAI-style voices, Claude-style generated speech, and similar new-generation synthetic speech sources.
-
-Training split:
-
-| Split | Clips | Real | Fake |
-| --- | ---: | ---: | ---: |
-| Train | 2,114 | 1,057 | 1,057 |
-| Validation | 372 | 186 | 186 |
-
-Full unseen test:
-
-| Clips | Accuracy | F1 | Precision | Recall |
-| ---: | ---: | ---: | ---: | ---: |
-| 344 | 81.69% | 78.64% | 94.31% | 67.44% |
-
-```text
-[[165, 7],
- [56, 116]]
+```powershell
+.\scripts\run_all.ps1
 ```
 
-The model performed well on real unseen audio but missed one difficult unseen fake source that closely resembled real human speech.
+Backend: `http://localhost:8000`
 
-Filtered unseen test, excluding one hard fake source:
-
-| Clips | Accuracy | F1 | Precision | Recall |
-| ---: | ---: | ---: | ---: | ---: |
-| 287 | 97.56% | 97.05% | 94.26% | 100% |
-
-```text
-[[165, 7],
- [0, 115]]
-```
-
-This stronger filtered result is shown for context, but the full unseen result should not be hidden.
-
-### Environmental Branch
-
-- Model: `EchoGuard AST EnvSDD Environmental Audio Model`
-- Artifact: `echoguard_ast_shard001.zip`
-- Base: `MIT/ast-finetuned-audioset-10-10-0.4593`
-- Dataset: EnvSDD Environmental Sound Deepfake Detection
-- Training: balanced EnvSDD shard 001, 10,000 clips total, 5,000 real and 5,000 fake
-
-Shard 001 validation:
-
-| Epoch | Accuracy | F1 |
-| ---: | ---: | ---: |
-| 1 | 98.70% | 98.69% |
-| 2 | 99.45% | 99.45% |
-| 3 | 99.60% | 99.60% |
-| 4 | 99.80% | 99.80% |
-| 5 | 99.70% | 99.70% |
-
-Cross-shard generalization:
-
-| Evaluation | Samples | Accuracy | F1 | Precision | Recall |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Shard 002 validation | 2,000 | 99.80% | 99.80% | 99.60% | 100% |
-| Shard 007 validation | 2,000 | 99.85% | 99.85% | 99.90% | 99.80% |
-| Shard 003 full test | 10,000 | 99.78% | 99.78% | 99.70% | 99.86% |
-| Shard 006 full test | 10,000 | 99.71% | 99.71% | 99.62% | 99.80% |
-
-## Important Limitations
-
-The speech branch is tuned for native English speaker audio and modern AI-generated voice samples, including voice styles similar to ElevenLabs, ChatGPT/OpenAI-style voice generation, Claude-style generated speech, and other new-generation synthetic speech sources.
-
-One hard unseen synthetic voice source was found to closely resemble real speech and reduced full unseen-test performance. This is reported transparently as a known limitation.
-
-The environmental branch is trained for general environmental/background audio such as ambience, urban sounds, crowds, traffic, and general non-speech sound events.
-
-The environmental branch should not be used as proof for legal, emergency, military, accident, or crisis-related audio verification.
+Frontend: `http://localhost:5173`
 
 ## Project Structure
 
@@ -142,59 +93,102 @@ EchoGuardAi-App/
 |   `-- vite.config.ts
 |-- docs/
 |   |-- API.md
+|   |-- METRICS.md
 |   `-- MODEL_NOTES.md
 |-- scripts/
 |   `-- run_all.ps1
-|-- .gitignore
 |-- README.md
+|-- .gitignore
 `-- sample.env.example
 ```
 
-## Run Backend
-
-```powershell
-cd backend
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-Or:
-
-```powershell
-.\backend\run_backend.ps1
-```
-
-## Run Frontend
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Open:
+## How It Works
 
 ```text
-http://localhost:5173
+Input -> Sanitize -> Router -> Speech/Environmental branch -> Processing -> Output
 ```
 
-## Run Both
+Audio is loaded, converted to 16 kHz mono, and normalized for model input. The router estimates speech ratio with a threshold of `0.30`: speech-heavy clips route to WavLM Speech v2, while mostly environmental/background clips route to AST EnvSDD. The output includes real/fake probabilities, the selected branch, a final display label, limitations, and a spectrogram image.
 
-```powershell
-.\scripts\run_all.ps1
+Display rule:
+
+```text
+confidence < 0.75 -> Uncertain
+prediction real   -> Likely Real
+prediction fake   -> Likely AI-Generated
 ```
 
-Backend: `http://localhost:8000`
+## Model Coverage & Evaluation
 
-Frontend: `http://localhost:5173`
+README keeps this section short on purpose. See [docs/METRICS.md](docs/METRICS.md) for full split tables, metric tables, confusion matrices, and interpretation notes.
 
-## API
+### Speech Branch Summary
 
-See [docs/API.md](docs/API.md).
+- Model: EchoGuard WavLM Speech v2 NaturalSpeech
+- Artifact: `echoguard_wavlm_speech_v2_naturalspeech.zip`
+- Base: `microsoft/wavlm-base`
+- Format: 4 seconds, 16 kHz, mono, 16-bit WAV
+- Training focus: native English speaker audio and modern AI-generated voice styles, including ElevenLabs, ChatGPT/OpenAI-style voices, Claude-style generated speech, and similar new-generation synthetic speech sources.
 
-## Detailed Model Notes
+Headline metrics:
 
-See [docs/MODEL_NOTES.md](docs/MODEL_NOTES.md).
+| Evaluation | Clips | Accuracy | F1 | Precision | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Full unseen test | 344 | 81.69% | 78.64% | 94.31% | 67.44% |
+| Filtered unseen test | 287 | 97.56% | 97.05% | 94.26% | 100% |
+
+The full unseen result is the honest main speech result. The filtered unseen result is diagnostic and shows that one hard synthetic source caused most of the missed fake clips.
+
+### Environmental Branch Summary
+
+- Model: EchoGuard AST EnvSDD Environmental Audio Model
+- Artifact: `echoguard_ast_shard001.zip`
+- Base: `MIT/ast-finetuned-audioset-10-10-0.4593`
+- Dataset: EnvSDD Environmental Sound Deepfake Detection
+- Training shard: 10,000 clips total, 5,000 real and 5,000 fake.
+
+Headline metrics:
+
+| Evaluation | Samples | Accuracy | F1 | Precision | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Shard 001 best validation | 2,000 | 99.80% | 99.80% | - | - |
+| Shard 002 validation | 2,000 | 99.80% | 99.80% | 99.60% | 100% |
+| Shard 007 validation | 2,000 | 99.85% | 99.85% | 99.90% | 99.80% |
+| Shard 003 full test | 10,000 | 99.78% | 99.78% | 99.70% | 99.86% |
+| Shard 006 full test | 10,000 | 99.71% | 99.71% | 99.62% | 99.80% |
+
+## Limitations
+
+- Speech branch is strongest for native English speaker audio and sources similar to the curated NaturalSpeech-v2 data.
+- One hard unseen synthetic voice source closely resembled real speech and reduced full unseen performance.
+- Environmental branch is for general environmental/background audio only.
+- Not for legal evidence, emergency response, military/security claims, accident verification, war/crisis footage, CCTV proof, gunshots, explosions, or safety-critical decisions.
+- Music, overlapping speakers, heavy noise, heavily compressed audio, very long clips, mixed speech/background audio, non-English speech, and unusual microphones can reduce reliability.
+- Results are model estimates, not proof.
+
+## Documentation
+
+- [API Reference](docs/API.md)
+- [Model Notes](docs/MODEL_NOTES.md)
+- [Metrics](docs/METRICS.md)
+
+## Dataset / Model Artifacts
+
+NaturalSpeech-v2 was used for Speech v2. EnvSDD was used for the environmental branch. The final app uses the two active local model artifacts listed above.
+
+## Development Background
+
+EchoGuard AI started with a speech v1 model trained on FoR-style speech data. Testing against modern AI voice samples showed the need for Speech v2, so NaturalSpeech-v2 was built around native English real speech and modern synthetic sources. Speech v2 improved modern-source coverage while keeping the hard unseen synthetic-source limitation visible. The environmental branch uses EnvSDD with AST and showed strong cross-shard results.
+
+## Development Notes
+
+- Portfolio/educational/research-style project.
+- Local inference after setup.
+- Python 3.11 recommended.
+- GPU helps, but CPU inference can work for short clips.
+- Backend stack: FastAPI, PyTorch, Transformers, librosa.
+- Frontend stack: React, TypeScript, Vite, Tailwind.
+
+## License / Use
+
+License not specified yet.

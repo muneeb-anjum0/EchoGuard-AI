@@ -70,12 +70,21 @@ export function Hero({ onAnalyzeClick, onStackClick }: Props) {
 }
 
 function generateTrace() {
-  const points = Array.from({ length: 8 }, (_, index) => {
-    const x = 18 + index * 55;
-    const wave = Math.sin(index * 1.35 + Math.random() * 0.9) * 28;
-    const drift = (Math.random() - 0.5) * 28;
-    const y = Math.max(42, Math.min(118, 82 + wave + drift));
-    return { x, y };
+  const phase = Math.random() * Math.PI * 2;
+  const amplitudeA = 17 + Math.random() * 8;
+  const amplitudeB = 6 + Math.random() * 6;
+  const slope = (Math.random() - 0.5) * 10;
+
+  const points = Array.from({ length: 9 }, (_, index) => {
+    const progress = index / 8;
+    const x = 18 + progress * 384;
+    const y =
+      82 +
+      Math.sin(progress * Math.PI * 2.05 + phase) * amplitudeA +
+      Math.sin(progress * Math.PI * 4.1 + phase * 0.55) * amplitudeB +
+      (progress - 0.5) * slope;
+
+    return { x, y: Math.max(48, Math.min(112, y)) };
   });
 
   const [first, ...rest] = points;
