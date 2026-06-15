@@ -1,4 +1,5 @@
 import { ArrowDown, AudioLines } from "lucide-react";
+import { useMemo } from "react";
 
 type Props = {
   onAnalyzeClick: () => void;
@@ -6,11 +7,13 @@ type Props = {
 };
 
 export function Hero({ onAnalyzeClick, onStackClick }: Props) {
+  const trace = useMemo(() => generateTrace(), []);
+
   return (
     <section className="hero-section">
       <div className="hero-copy-block">
         <span className="eyebrow">Audio authenticity screening</span>
-        <h1>EchoGuard AI</h1>
+        <h1>Echo<span className="brand-accent">Guard</span> AI</h1>
         <p className="hero-subtitle">
           Clean audio authenticity screening for speech and environmental sound.
         </p>
@@ -43,16 +46,16 @@ export function Hero({ onAnalyzeClick, onStackClick }: Props) {
             <defs>
               <linearGradient id="traceGradient" x1="0" x2="1" y1="0" y2="0">
                 <stop offset="0%" stopColor="#CBD5E1" />
-                <stop offset="45%" stopColor="#6366F1" />
-                <stop offset="100%" stopColor="#93C5FD" />
+                <stop offset="45%" stopColor="#93C5FD" />
+                <stop offset="100%" stopColor="#BFDBFE" />
               </linearGradient>
             </defs>
-            <path className="trace-shadow" d="M18 90 C62 72, 82 68, 118 82 S178 112, 220 78 S288 38, 330 66 S374 104, 402 82" />
-            <path className="trace-line" d="M18 90 C62 72, 82 68, 118 82 S178 112, 220 78 S288 38, 330 66 S374 104, 402 82" />
+            <path className="trace-shadow" d={trace.path} />
+            <path className="trace-line" d={trace.path} />
           </svg>
           <div className="trace-metrics">
             <span>Speech ratio</span>
-            <strong>82%</strong>
+            <strong>{trace.speechRatio}%</strong>
           </div>
         </div>
 
@@ -64,4 +67,29 @@ export function Hero({ onAnalyzeClick, onStackClick }: Props) {
       </div>
     </section>
   );
+}
+
+function generateTrace() {
+  const points = Array.from({ length: 8 }, (_, index) => {
+    const x = 18 + index * 55;
+    const wave = Math.sin(index * 1.35 + Math.random() * 0.9) * 28;
+    const drift = (Math.random() - 0.5) * 28;
+    const y = Math.max(42, Math.min(118, 82 + wave + drift));
+    return { x, y };
+  });
+
+  const [first, ...rest] = points;
+  let path = `M${first.x} ${first.y}`;
+  let movement = 0;
+
+  for (let index = 0; index < rest.length; index += 1) {
+    const previous = points[index];
+    const current = rest[index];
+    const controlOffset = (current.x - previous.x) * 0.5;
+    movement += Math.abs(current.y - previous.y);
+    path += ` C${previous.x + controlOffset} ${previous.y}, ${current.x - controlOffset} ${current.y}, ${current.x} ${current.y}`;
+  }
+
+  const speechRatio = Math.round(Math.max(58, Math.min(94, 58 + movement * 0.26)));
+  return { path, speechRatio };
 }

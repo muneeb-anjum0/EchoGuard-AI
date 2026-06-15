@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { predictAudio, type PredictionResult } from "./api";
 import { FrequencyTimeView } from "./components/FrequencyTimeView";
@@ -15,6 +15,7 @@ export default function App() {
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState("analysis");
   const analyzeRef = useRef<HTMLElement | null>(null);
   const modelsRef = useRef<HTMLElement | null>(null);
   const howRef = useRef<HTMLElement | null>(null);
@@ -24,6 +25,42 @@ export default function App() {
     () => result?.spectrogram_base64 ?? result?.spectrogram_png ?? null,
     [result],
   );
+
+  useEffect(() => {
+    const sections = [
+      ["analysis", analyzeRef],
+      ["how", howRef],
+      ["models", modelsRef],
+      ["limitations", limitationsRef],
+    ] as const;
+
+    function updateActiveSection() {
+      const viewportAnchor = window.innerHeight * 0.38;
+      const current = sections.reduce(
+        (closest, [key, ref]) => {
+          const element = ref.current;
+          if (!element) {
+            return closest;
+          }
+
+          const distance = Math.abs(element.getBoundingClientRect().top - viewportAnchor);
+          return distance < closest.distance ? { key, distance } : closest;
+        },
+        { key: "analysis", distance: Number.POSITIVE_INFINITY },
+      );
+
+      setActiveSection(current.key);
+    }
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
+  }, []);
 
   async function handleAnalyze(file: File) {
     setIsLoading(true);
@@ -50,6 +87,7 @@ export default function App() {
         onModelsClick={() => scrollTo(modelsRef.current)}
         onHowClick={() => scrollTo(howRef.current)}
         onLimitationsClick={() => scrollTo(limitationsRef.current)}
+        activeSection={activeSection}
       />
 
       <main>
@@ -80,7 +118,7 @@ export default function App() {
             <ResultCard result={result} />
           </div>
 
-          <FrequencyTimeView image={spectrogramImage} />
+          {spectrogramImage && <FrequencyTimeView image={spectrogramImage} />}
         </section>
 
         <div ref={howRef}>
@@ -93,6 +131,7 @@ export default function App() {
 
         <section className="limitations-section" ref={limitationsRef} id="limitations">
           <div className="section-title">
+            <span className="eyebrow">FAQ guide</span>
             <h2>Most Obvious Questions</h2>
             <p>
               Quick answers about what EchoGuard AI can and cannot tell you.
