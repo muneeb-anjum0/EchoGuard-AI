@@ -188,7 +188,3 @@ EchoGuard AI started with a speech v1 model trained on FoR-style speech data. Te
 - GPU helps, but CPU inference can work for short clips.
 - Backend stack: FastAPI, PyTorch, Transformers, librosa.
 - Frontend stack: React, TypeScript, Vite, Tailwind.
-
-## License / Use
-
-License not specified yet.
