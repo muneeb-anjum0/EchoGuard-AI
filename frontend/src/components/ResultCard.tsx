@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { AlertTriangle, CheckCircle2, CircleHelp, Clock3, Gauge, GitBranch, RadioTower, Route } from "lucide-react";
+import { AlertTriangle, CheckCircle2, CircleHelp, Clock3, Gauge, GitBranch, RadioTower } from "lucide-react";
 import type { PredictionResult } from "../api";
 import { ProbabilityBars } from "./ProbabilityBars";
 
@@ -30,7 +30,6 @@ export function ResultCard({ result }: Props) {
   const tone = label === "Likely Real" ? "real" : label === "Likely AI-Generated" ? "fake" : "uncertain";
   const selectedBranch = result.selected_branch ?? result.audio_type ?? "Unknown";
   const selectedModel = result.model_name ?? formatSelectedModel(result.selected_model);
-  const routerDecision = result.router_decision ?? selectedBranch;
   const duration = typeof result.duration_sec === "number" ? `${result.duration_sec.toFixed(2)}s` : "Unknown";
   const speechRatio = typeof result.speech_ratio === "number" ? `${(result.speech_ratio * 100).toFixed(1)}%` : "Unknown";
   const realProbability = result.real_probability ?? result.real_prob ?? 0;
@@ -66,7 +65,6 @@ export function ResultCard({ result }: Props) {
       <div className="detail-grid">
         <Detail icon={<GitBranch size={17} />} label="Selected branch" value={String(selectedBranch)} />
         <Detail icon={<RadioTower size={17} />} label="Model used" value={selectedModel} />
-        <Detail icon={<Route size={17} />} label="Router decision" value={String(routerDecision)} />
         <Detail icon={<Gauge size={17} />} label="Speech ratio" value={speechRatio} />
         <Detail icon={<Clock3 size={17} />} label="Duration" value={duration} />
       </div>
@@ -105,7 +103,7 @@ function ResultIcon({ tone }: { tone: "real" | "fake" | "uncertain" }) {
 
 function Detail({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div>
+    <div className="detail-pill">
       {icon}
       <span>{label}</span>
       <strong>{value}</strong>

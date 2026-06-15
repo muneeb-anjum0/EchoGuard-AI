@@ -83,7 +83,7 @@ button {
   right: -20vw;
   top: 16vh;
   background: #dbeafe;
-  animation: wash-drift 22s ease-in-out infinite alternate-reverse;
+  animation: wash-drift 23s ease-in-out infinite alternate-reverse;
 }
 
 .grain-layer {
@@ -795,10 +795,10 @@ h1 {
 
 .file-row {
   margin-top: 16px;
-  padding: 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  background: #ffffff;
+  padding: 11px 12px;
+  border: 1px dashed rgba(147, 197, 253, 0.68);
+  border-radius: 18px;
+  background: transparent;
 }
 
 .file-icon {
@@ -830,9 +830,20 @@ h1 {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: #f3f4f6;
-  color: #4b5563;
+  border: 1px dashed rgba(147, 197, 253, 0.58);
+  background: rgba(255, 255, 255, 0.16);
+  color: #60a5fa;
   cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.icon-button:hover {
+  border-color: #60a5fa;
+  color: #2563eb;
+  transform: translateY(-1px);
 }
 
 .soft-error {
@@ -889,33 +900,33 @@ h1 {
 
 .result-topline {
   align-items: flex-start;
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 
 .result-topline h2 {
   margin: 0;
-  font-size: clamp(1.8rem, 3.3vw, 2.75rem);
+  font-size: clamp(1.55rem, 2.7vw, 2.25rem);
 }
 
 .result-icon.real {
-  color: #059669;
+  color: #60a5fa;
 }
 
 .result-icon.fake {
-  color: #e11d48;
+  color: #60a5fa;
 }
 
 .result-icon.uncertain {
-  color: #b45309;
+  color: #60a5fa;
 }
 
 .confidence-block {
   display: grid;
-  gap: 12px;
-  padding: 16px;
-  border-radius: 22px;
-  background: #f9fafb;
-  border: 1px solid #eef2f7;
+  gap: 9px;
+  padding: 12px;
+  border: 1px dashed rgba(147, 197, 253, 0.58);
+  border-radius: 16px;
+  background: transparent;
 }
 
 .confidence-block span,
@@ -927,16 +938,16 @@ h1 {
 .confidence-block strong {
   display: block;
   color: #111827;
-  font-size: 2rem;
+  font-size: 1.48rem;
   line-height: 1.1;
 }
 
 .confidence-track,
 .probability-track {
-  height: 12px;
+  height: 8px;
   overflow: hidden;
   border-radius: 999px;
-  background: #e5e7eb;
+  background: rgba(226, 232, 240, 0.75);
 }
 
 .confidence-track span,
@@ -949,15 +960,15 @@ h1 {
 }
 
 .result-real .confidence-track span {
-  background: linear-gradient(90deg, #34d399, #10b981);
+  background: linear-gradient(90deg, #bfdbfe, #60a5fa);
 }
 
 .result-fake .confidence-track span {
-  background: linear-gradient(90deg, #fb7185, #f97316);
+  background: linear-gradient(90deg, #bfdbfe, #60a5fa);
 }
 
 .result-uncertain .confidence-track span {
-  background: linear-gradient(90deg, #fbbf24, #64748b);
+  background: linear-gradient(90deg, #dbeafe, #93c5fd);
 }
 
 .care-note {
@@ -970,64 +981,87 @@ h1 {
 
 .probability-stack {
   display: grid;
-  gap: 13px;
-  margin-top: 18px;
+  gap: 10px;
+  margin-top: 14px;
 }
 
 .probability-label {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .probability-label strong {
-  color: #111827;
+  color: #475569;
+  font-size: 0.9rem;
 }
 
 .probability-track span.real {
-  background: #10b981;
+  background: #86efac;
 }
 
 .probability-track span.fake {
-  background: #fb7185;
+  background: #fca5a5;
 }
 
 .detail-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
 }
 
-.detail-grid > div {
-  display: grid;
-  gap: 7px;
-  padding: 13px;
-  border: 1px solid #eef2f7;
-  border-radius: 18px;
-  background: #ffffff;
+.detail-pill {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 6px 9px;
+  border: 1px dashed rgba(147, 197, 253, 0.6);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .detail-grid svg {
   color: #60a5fa;
+  flex: 0 0 auto;
+}
+
+.detail-grid span {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 750;
+  white-space: nowrap;
 }
 
 .detail-grid strong {
-  color: #111827;
+  min-width: 0;
+  color: #475569;
+  font-size: 0.76rem;
+  font-weight: 800;
   overflow-wrap: anywhere;
 }
 
 .explanation-card {
-  margin-top: 16px;
-  padding: 14px;
-  border-radius: 18px;
-  background: #f9fafb;
-  border: 1px solid #eef2f7;
+  margin-top: 13px;
+  padding: 11px 12px;
+  border: 1px dashed rgba(147, 197, 253, 0.48);
+  border-radius: 16px;
+  background: transparent;
+}
+
+.explanation-card span {
+  color: #60a5fa;
 }
 
 .disclaimer {
-  font-size: 0.9rem;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(147, 197, 253, 0.46);
+  font-size: 0.78rem;
+  line-height: 1.52;
 }
 
 .frequency-card {
@@ -1325,6 +1359,7 @@ h1 {
 .flow-diagram {
   --flow-arrow-color: #94a3b8;
   --flow-arrow-active: #60a5fa;
+  --flow-arrow-glow: drop-shadow(0 0 4px rgba(96, 165, 250, 0.62)) drop-shadow(0 0 12px rgba(96, 165, 250, 0.36));
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -1420,15 +1455,15 @@ h1 {
 }
 
 .flow-arrow-one path {
-  animation: flow-pulse-start-one 8s ease-in-out infinite;
+  animation: flow-pulse-start-one 3s ease-in-out infinite;
 }
 
 .flow-arrow-two path {
-  animation: flow-pulse-start-two 8s ease-in-out infinite;
+  animation: flow-pulse-start-two 3s ease-in-out infinite;
 }
 
 .flow-arrow-output path {
-  animation: flow-pulse-output 8s ease-in-out infinite;
+  animation: flow-pulse-output 3s ease-in-out infinite;
 }
 
 .flow-branch-stack {
@@ -1456,19 +1491,19 @@ h1 {
 }
 
 .flow-branch-speech {
-  animation: flow-pulse-speech-branch 8s ease-in-out infinite;
+  animation: flow-pulse-speech-branch 3s ease-in-out infinite;
 }
 
 .flow-merge-speech {
-  animation: flow-pulse-speech-merge 8s ease-in-out infinite;
+  animation: flow-pulse-speech-merge 3s ease-in-out infinite;
 }
 
 .flow-branch-env {
-  animation: flow-pulse-env-branch 8s ease-in-out infinite;
+  animation: flow-pulse-env-branch 3s ease-in-out infinite;
 }
 
 .flow-merge-env {
-  animation: flow-pulse-env-merge 8s ease-in-out infinite;
+  animation: flow-pulse-env-merge 3s ease-in-out infinite;
 }
 
 .flow-merge {
@@ -1575,6 +1610,7 @@ h1 {
   56%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   2%,
@@ -1582,7 +1618,8 @@ h1 {
   50%,
   53% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
@@ -1594,6 +1631,7 @@ h1 {
   65%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   11%,
@@ -1601,7 +1639,8 @@ h1 {
   59%,
   62% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
@@ -1611,12 +1650,14 @@ h1 {
   26%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   20%,
   23% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
@@ -1626,12 +1667,14 @@ h1 {
   35%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   29%,
   32% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
@@ -1641,12 +1684,14 @@ h1 {
   74%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   68%,
   71% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
@@ -1656,12 +1701,14 @@ h1 {
   83%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   77%,
   80% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
@@ -1673,6 +1720,7 @@ h1 {
   92%,
   100% {
     stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
     filter: none;
   }
   38%,
@@ -1680,7 +1728,8 @@ h1 {
   86%,
   89% {
     stroke: var(--flow-arrow-active);
-    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.32));
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
   }
 }
 
