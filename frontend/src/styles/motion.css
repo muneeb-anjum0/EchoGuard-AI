@@ -1,0 +1,206 @@
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes wash-drift {
+  to {
+    transform: translate3d(8vw, 5vh, 0);
+  }
+}
+
+@keyframes trace-draw {
+  from {
+    stroke-dashoffset: 520;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes shine {
+  to {
+    transform: translateX(130%) skewX(-18deg);
+  }
+}
+
+@keyframes bar-grow {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes state-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+@keyframes flow-pulse-start-one {
+  0%,
+  8%,
+  48%,
+  56%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  2%,
+  5%,
+  50%,
+  53% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+
+@keyframes flow-pulse-start-two {
+  0%,
+  9%,
+  17%,
+  57%,
+  65%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  11%,
+  14%,
+  59%,
+  62% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+
+@keyframes flow-pulse-speech-branch {
+  0%,
+  18%,
+  26%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  20%,
+  23% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+
+@keyframes flow-pulse-speech-merge {
+  0%,
+  27%,
+  35%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  29%,
+  32% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+
+@keyframes flow-pulse-env-branch {
+  0%,
+  66%,
+  74%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  68%,
+  71% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+
+@keyframes flow-pulse-env-merge {
+  0%,
+  75%,
+  83%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  77%,
+  80% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+
+@keyframes flow-pulse-output {
+  0%,
+  36%,
+  44%,
+  84%,
+  92%,
+  100% {
+    stroke: var(--flow-arrow-color);
+    stroke-width: 1.4;
+    filter: none;
+  }
+  38%,
+  41%,
+  86%,
+  89% {
+    stroke: var(--flow-arrow-active);
+    stroke-width: 1.75;
+    filter: var(--flow-arrow-glow);
+  }
+}
+

@@ -1,0 +1,175 @@
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero-section,
+  .analysis-grid,
+  .model-grid,
+  .bottom-grid,
+  .site-footer,
+  .info-page-grid,
+  .footer-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding-top: 54px;
+  }
+
+  .empty-result {
+    min-height: 240px;
+  }
+
+  .flow-diagram {
+    padding-top: 8px;
+  }
+
+  .info-card {
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 14px 10px 24px;
+  }
+
+  .side-nav {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    margin: 4px auto 0;
+    padding: 10px 12px;
+    transform: none;
+  }
+
+  .nav-links {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+  }
+
+  .nav-links button {
+    font-size: 0.92rem;
+  }
+
+  .hero-section {
+    padding-top: 44px;
+  }
+
+  .info-page {
+    padding-top: 44px;
+  }
+
+  .info-page h1 {
+    font-size: clamp(2.45rem, 12vw, 4.2rem);
+  }
+
+  .site-footer {
+    width: 100%;
+    left: 0;
+    margin-inline: auto;
+    padding: 14px;
+    border-radius: 24px;
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 13.5vw, 5.8rem);
+  }
+
+  .hero-actions,
+  .button-primary,
+  .button-secondary {
+    width: 100%;
+  }
+
+  .card,
+  .hero-preview-card {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .frequency-header,
+  .faq-card,
+  .limitation-card {
+    flex-direction: column;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .limitation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .model-metric-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .model-flip-back .model-metric-row {
+    grid-template-columns: minmax(96px, 0.34fr) minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .model-flip-back .model-metric-row strong {
+    font-size: 0.7rem;
+  }
+
+  .editorial-model-card,
+  .limitation-mini-card,
+  .flow-node {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .side-nav {
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+  }
+
+  .file-row {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .icon-button {
+    justify-self: start;
+  }
+
+  .signal-trace-card {
+    min-height: 180px;
+    padding: 12px;
+  }
+
+  .signal-trace-card svg {
+    height: 128px;
+  }
+
+  .drop-zone {
+    min-height: 170px;
+  }
+}
+
+  

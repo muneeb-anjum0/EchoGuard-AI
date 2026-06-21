@@ -1,0 +1,24 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M32 12L46 18V30C46 39.4 40.28 47.92 32 52C23.72 47.92 18 39.4 18 30V18L32 12Z" fill="url(#shield)" stroke="url(#edge)" stroke-width="1.5"/>
+  <path d="M24 33C25.5 29.8 27.8 27 31 27C34.2 27 36.2 37 39 37C41.1 37 42.7 34.9 44 32.2" stroke="url(#wave)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19 23C15.9 25.4 14 29.2 14 33.2C14 37.2 15.9 41 19 43.4" stroke="url(#echo)" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M45 23C48.1 25.4 50 29.2 50 33.2C50 37.2 48.1 41 45 43.4" stroke="url(#echo)" stroke-width="2.2" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="shield" x1="32" y1="12" x2="32" y2="52" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D4ED8"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="18" y1="16" x2="46" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DBEAFE"/>
+      <stop offset="1" stop-color="#93C5FD"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="24" y1="27" x2="44" y2="35" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="echo" x1="14" y1="22" x2="50" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#BFDBFE" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+</svg>
