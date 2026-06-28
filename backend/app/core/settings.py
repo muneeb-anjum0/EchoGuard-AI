@@ -6,7 +6,7 @@ SPEECH_THRESHOLD = 0.30
 UNCERTAIN_MARGIN = 0.12
 DISPLAY_CONFIDENCE_THRESHOLD = 0.75
 
-BACKEND_DIR = Path(__file__).resolve().parents[1]
+BACKEND_DIR = Path(__file__).resolve().parents[2]
 PROJECT_ROOT = BACKEND_DIR.parent
 MODEL_ROOT = BACKEND_DIR / "models"
 MODEL_ARTIFACT_DIR = MODEL_ROOT / "artifacts"
