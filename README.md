@@ -75,8 +75,7 @@ EchoGuardAi-App/
 |-- scripts/
 |   `-- start-dev.ps1
 |-- README.md
-|-- .gitignore
-`-- sample.env.example
+`-- .gitignore
 ```
 
 ## Active model artifacts
