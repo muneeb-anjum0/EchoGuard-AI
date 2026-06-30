@@ -88,7 +88,7 @@ export function UploadCard({ onAnalyze, isLoading }: Props) {
           <div className="file-meta">
             <strong>{file.name}</strong>
             <span>
-              {formatBytes(file.size)} · {extension || "AUDIO"}
+              {formatBytes(file.size)} - {extension || "AUDIO"}
             </span>
           </div>
           <button className="icon-button" onClick={() => setFile(null)} aria-label="Remove selected file">

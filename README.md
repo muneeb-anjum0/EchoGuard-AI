@@ -1,12 +1,12 @@
-# EchoGuard AI
+# AudioAware AI
 
 ![Local inference](https://img.shields.io/badge/inference-local-60A5FA)
 ![Backend](https://img.shields.io/badge/backend-FastAPI-60A5FA)
 ![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-60A5FA)
 
-EchoGuard AI is a local audio authenticity screening web app. It accepts speech or environmental audio, routes the clip to the matching model branch, and returns a probabilistic result with routing details, model metadata, limitations, and a spectrogram view.
+AudioAware AI is a local audio authenticity screening web app. It accepts speech or environmental audio, routes the clip to the matching model branch, and returns a probabilistic result with routing details, model metadata, limitations, and a spectrogram view.
 
-EchoGuard AI provides probabilistic screening results only. It does not prove whether audio is real or fake, and it should not be used as the sole basis for legal, disciplinary, emergency, or safety-critical decisions.
+AudioAware AI provides probabilistic screening results only. It does not prove whether audio is real or fake, and it should not be used as the sole basis for legal, disciplinary, emergency, or safety-critical decisions.
 
 ## What the app does
 
@@ -40,7 +40,7 @@ EchoGuard AI provides probabilistic screening results only. It does not prove wh
 ## Project structure
 
 ```text
-EchoGuardAi-App/
+AudioAwareAi-App/
 |-- backend/
 |   |-- app/
 |   |   |-- api/
@@ -59,7 +59,7 @@ EchoGuardAi-App/
 |   `-- model-metrics.md
 |-- frontend/
 |   |-- public/
-|   |   `-- echoguard-favicon.svg
+|   |   `-- audioaware-favicon.svg
 |   |-- src/
 |   |   |-- app/
 |   |   |-- content/
@@ -84,8 +84,8 @@ Place the active ZIP files in `backend/models/artifacts/`.
 
 | Branch | Artifact |
 | --- | --- |
-| Speech | `echoguard_wavlm_speech_v2_naturalspeech.zip` |
-| Environmental | `echoguard_ast_shard001.zip` |
+| Speech | `audioaware_wavlm_speech_v2_naturalspeech.zip` |
+| Environmental | `audioaware_ast_shard001.zip` |
 
 On backend startup, the loader extracts each artifact into `backend/models/` only when the expected Hugging Face model files are not already present.
 

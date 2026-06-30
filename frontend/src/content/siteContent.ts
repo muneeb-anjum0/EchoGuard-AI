@@ -49,7 +49,7 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
   privacy: {
     eyebrow: "Privacy",
     title: "Privacy Notice",
-    intro: "How EchoGuard AI handles audio, analysis outputs, and basic project information.",
+    intro: "How AudioAware AI handles audio, analysis outputs, and basic project information.",
     icon: ShieldCheck,
     sections: [
       {
@@ -62,19 +62,19 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
       },
       {
         title: "External links",
-        body: "GitHub and LinkedIn links open outside EchoGuard AI. Those services are governed by their own privacy practices.",
+        body: "GitHub and LinkedIn links open outside AudioAware AI. Those services are governed by their own privacy practices.",
       },
     ],
   },
   terms: {
     eyebrow: "Terms",
     title: "Terms of Use",
-    intro: "Clear expectations for using EchoGuard AI responsibly and interpreting its results.",
+    intro: "Clear expectations for using AudioAware AI responsibly and interpreting its results.",
     icon: Scale,
     sections: [
       {
         title: "Screening tool",
-        body: "EchoGuard AI provides probabilistic screening for audio authenticity. It does not provide legal, emergency, forensic, or guaranteed verification services.",
+        body: "AudioAware AI provides probabilistic screening for audio authenticity. It does not provide legal, emergency, forensic, or guaranteed verification services.",
       },
       {
         title: "User responsibility",
@@ -88,7 +88,7 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
   },
   "responsible-use": {
     eyebrow: "Responsible use",
-    title: "Use EchoGuard AI With Context",
+    title: "Use AudioAware AI With Context",
     intro: "The model output is most useful when treated as one signal among several, not the whole answer.",
     icon: FileText,
     sections: [
@@ -98,7 +98,7 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
       },
       {
         title: "Avoid high-stakes decisions",
-        body: "Do not use EchoGuard AI alone for legal disputes, safety incidents, employment decisions, surveillance review, or crisis response.",
+        body: "Do not use AudioAware AI alone for legal disputes, safety incidents, employment decisions, surveillance review, or crisis response.",
       },
       {
         title: "Keep records",
@@ -109,7 +109,7 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
   contact: {
     eyebrow: "Contact",
     title: "Project Links",
-    intro: "Find the developer profile and project presence for EchoGuard AI.",
+    intro: "Find the developer profile and project presence for AudioAware AI.",
     icon: Mail,
     sections: [
       { title: "Email", body: "muneeb.anjum0@gmail.com" },
@@ -125,7 +125,7 @@ export const MODEL_CARDS: ModelCardContent[] = [
     eyebrow: "Speech v2",
     icon: Mic2,
     fields: [
-      ["Active model", "EchoGuard WavLM Speech v2 NaturalSpeech"],
+      ["Active model", "AudioAware WavLM Speech v2 NaturalSpeech"],
       ["Base", "microsoft/wavlm-base"],
       [
         "Dataset notes",
@@ -148,7 +148,7 @@ export const MODEL_CARDS: ModelCardContent[] = [
     eyebrow: "EnvSDD AST",
     icon: Waves,
     fields: [
-      ["Active model", "EchoGuard AST EnvSDD Environmental Audio Model"],
+      ["Active model", "AudioAware AST EnvSDD Environmental Audio Model"],
       ["Base", "MIT/ast-finetuned-audioset-10-10-0.4593"],
       ["Dataset", "EnvSDD Environmental Sound Deepfake Detection"],
       ["Task", "Likely real environmental/background audio vs likely AI-generated environmental audio"],
@@ -165,8 +165,8 @@ export const MODEL_CARDS: ModelCardContent[] = [
 
 export const LIMITATION_CARDS: LimitationCardContent[] = [
   {
-    title: "Is EchoGuard AI proof?",
-    text: "EchoGuard AI gives probability-based screening results. It does not verify, prove, or certify whether an audio clip is real or AI-generated. Results should not be used alone for legal, disciplinary, emergency, safety-critical, or public-accusation decisions.",
+    title: "Is AudioAware AI proof?",
+    text: "AudioAware AI gives probability-based screening results. It does not verify, prove, or certify whether an audio clip is real or AI-generated. Results should not be used alone for legal, disciplinary, emergency, safety-critical, or public-accusation decisions.",
     icon: ShieldAlert,
   },
   {
@@ -194,7 +194,7 @@ export const LIMITATION_CARDS: LimitationCardContent[] = [
   },
   {
     title: "Where should I avoid using it?",
-    text: "Do not use EchoGuard AI as proof for gunshots, explosions, accidents, war scenes, protest violence, CCTV evidence, emergency calls, or legal disputes. These contexts require expert review, chain-of-custody handling, and dedicated forensic methods.",
+    text: "Do not use AudioAware AI as proof for gunshots, explosions, accidents, war scenes, protest violence, CCTV evidence, emergency calls, or legal disputes. These contexts require expert review, chain-of-custody handling, and dedicated forensic methods.",
     icon: ShieldAlert,
   },
   {
@@ -204,7 +204,7 @@ export const LIMITATION_CARDS: LimitationCardContent[] = [
   },
   {
     title: "Can routing be uncertain?",
-    text: "EchoGuard AI routes uploads to a speech model or environmental model. Mixed clips, music, speech over loud background sound, or ambiguous audio may be routed imperfectly. The selected branch and router decision should always be shown with the result.",
+    text: "AudioAware AI routes uploads to a speech model or environmental model. Mixed clips, music, speech over loud background sound, or ambiguous audio may be routed imperfectly. The selected branch and router decision should always be shown with the result.",
     icon: GitBranch,
   },
 ];
@@ -227,8 +227,8 @@ export const FOOTER_LINKS: Array<{ href: string; label: string; icon: LucideIcon
   { href: "https://www.linkedin.com/in/muneebanjum335/", label: "linkedin.com/in/muneebanjum335", icon: Linkedin },
   { href: "mailto:muneeb.anjum0@gmail.com", label: "muneeb.anjum0@gmail.com", icon: Mail },
   {
-    href: "https://www.kaggle.com/datasets/muneebanjumm/echoguard-naturalspeech-v2/",
-    label: "Kaggle dataset",
+    href: "https://www.kaggle.com/muneebanjumm",
+    label: "Kaggle profile",
     icon: Database,
   },
 ];

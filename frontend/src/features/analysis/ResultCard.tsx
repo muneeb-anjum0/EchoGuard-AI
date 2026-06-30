@@ -86,7 +86,7 @@ export function ResultCard({ result }: Props) {
 
       <p className="disclaimer">
         {result.note ??
-          "EchoGuard AI provides probabilistic screening results only. It does not make a final determination about whether audio is real or fake."}
+          "AudioAware AI provides probabilistic screening results only. It does not make a final determination about whether audio is real or fake."}
       </p>
     </section>
   );
@@ -160,12 +160,12 @@ function getConfidenceLevel(confidence: number) {
 }
 
 function formatSelectedModel(model: string | undefined) {
-  if (model === "echoguard_wavlm_speech_v2_naturalspeech") {
-    return "EchoGuard WavLM Speech v2 NaturalSpeech";
+  if (model === "audioaware_wavlm_speech_v2_naturalspeech") {
+    return "AudioAware WavLM Speech v2 NaturalSpeech";
   }
 
-  if (model === "echoguard_ast_shard001") {
-    return "EchoGuard AST EnvSDD Environmental Audio Model";
+  if (model === "audioaware_ast_shard001") {
+    return "AudioAware AST EnvSDD Environmental Audio Model";
   }
 
   return "Unknown";
@@ -173,11 +173,11 @@ function formatSelectedModel(model: string | undefined) {
 
 function formatSelectedBranch(branch: string | undefined) {
   if (branch === "speech") {
-    return "Speech → WavLM";
+    return "Speech -> WavLM";
   }
 
   if (branch === "environmental") {
-    return "Environmental → AST";
+    return "Environmental -> AST";
   }
 
   return branch ?? "Unknown";

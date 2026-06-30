@@ -22,14 +22,14 @@ export function RouterExplainer({ result }: Props) {
     <section className="router-section" id="how-it-works">
       <div className="section-title">
         <span className="eyebrow">Processing flow</span>
-        <h2>How EchoGuard Processes Audio</h2>
+        <h2>How AudioAware Processes Audio</h2>
         <p>
           Each upload passes through cleaning, routing, specialist model inference, and
           probability-based output.
         </p>
       </div>
 
-      <div className="flow-diagram" aria-label="EchoGuard audio processing flow">
+      <div className="flow-diagram" aria-label="AudioAware audio processing flow">
         <FlowNode node={flowNodes.input} />
         <StraightArrow className="flow-arrow-one" />
         <FlowNode node={flowNodes.sanitize} />

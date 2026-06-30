@@ -1,0 +1,77 @@
+.dock-outer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  max-width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dock-panel {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: calc(100vw - 24px);
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1.5px dotted rgba(15, 118, 110, 0.48);
+  border-radius: 18px;
+  background-color: transparent;
+  box-shadow: none;
+  transform: translateX(-50%);
+  pointer-events: auto;
+  overflow: visible;
+}
+
+.dock-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dotted rgba(15, 118, 110, 0.38);
+  border-radius: 12px;
+  background-color: transparent;
+  color: #17201a;
+  box-shadow: none;
+  cursor: pointer;
+  outline: none;
+  will-change: width, height;
+}
+
+.dock-item:hover,
+.dock-item:focus-visible,
+.dock-item.active {
+  border-color: rgba(15, 118, 110, 0.3);
+  background-color: rgba(233, 245, 228, 0.74);
+  color: #0f766e;
+}
+
+.dock-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dock-label {
+  position: absolute;
+  top: -1.8rem;
+  left: 50%;
+  width: fit-content;
+  white-space: pre;
+  border: 1.5px dotted rgba(15, 118, 110, 0.48);
+  border-radius: 7px;
+  background-color: #f4f6f2;
+  padding: 0.18rem 0.55rem;
+  color: #17201a;
+  font-size: 0.75rem;
+  font-weight: 820;
+  transform: translateX(-50%);
+  box-shadow: none;
+}

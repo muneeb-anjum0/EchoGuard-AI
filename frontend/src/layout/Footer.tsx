@@ -10,7 +10,7 @@ export function Footer({ onHomeClick, onPageClick }: Props) {
   return (
     <footer className="site-footer">
       <div className="footer-brand">
-        <span className="eyebrow">EchoGuard AI</span>
+        <span className="eyebrow">AudioAware AI</span>
         <h2>Audio authenticity screening, clearly bounded.</h2>
         <p>
           A local-first interface for routing audio through specialist models, reviewing
@@ -28,12 +28,18 @@ export function Footer({ onHomeClick, onPageClick }: Props) {
           ))}
         </div>
 
-        <div>
+        <div className="footer-useful-links">
           <h3>Useful links</h3>
           {FOOTER_LINKS.map(({ href, label, icon: Icon }) => (
-            <a key={label} href={href} target={href.startsWith("mailto:") ? undefined : "_blank"} rel={href.startsWith("mailto:") ? undefined : "noreferrer"}>
-              <Icon size={16} />
-              {label}
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto:") ? undefined : "_blank"}
+              rel={href.startsWith("mailto:") ? undefined : "noreferrer"}
+              aria-label={label}
+              title={label}
+            >
+              <Icon size={17} />
             </a>
           ))}
         </div>
@@ -48,7 +54,7 @@ export function Footer({ onHomeClick, onPageClick }: Props) {
       </div>
 
       <p className="footer-credits">
-        Built by Muneeb Anjum. EchoGuard AI is for research-style audio screening and careful review.
+        Built by Muneeb Anjum. AudioAware AI is for research-style audio screening and careful review.
       </p>
     </footer>
   );

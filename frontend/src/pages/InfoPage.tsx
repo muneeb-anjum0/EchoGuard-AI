@@ -14,7 +14,7 @@ export function InfoPage({ page, onBack }: Props) {
     <section className="info-page">
       <button className="info-back-button" onClick={onBack}>
         <ArrowLeft size={16} />
-        Back to EchoGuard AI
+        Back to AudioAware AI
       </button>
 
       <div className="section-title">

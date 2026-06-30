@@ -1,4 +1,4 @@
-# EchoGuard AI API reference
+# AudioAware AI API reference
 
 Base URL: `http://localhost:8000`
 
@@ -24,7 +24,7 @@ curl.exe http://localhost:8000/
 
 ```json
 {
-  "app": "EchoGuard AI",
+  "app": "AudioAware AI",
   "status": "running"
 }
 ```
@@ -58,17 +58,17 @@ Response shape:
 ```json
 {
   "environmental": {
-    "name": "EchoGuard AST EnvSDD Environmental Audio Model",
+    "name": "AudioAware AST EnvSDD Environmental Audio Model",
     "version": "ast_envsdd_shard001",
-    "artifact": "echoguard_ast_shard001.zip",
+    "artifact": "audioaware_ast_shard001.zip",
     "task": "Likely real environmental audio vs likely AI-generated environmental audio",
     "metrics": {},
     "limitations": []
   },
   "speech": {
-    "name": "EchoGuard WavLM Speech v2 NaturalSpeech",
+    "name": "AudioAware WavLM Speech v2 NaturalSpeech",
     "version": "speech_v2_naturalspeech",
-    "artifact": "echoguard_wavlm_speech_v2_naturalspeech.zip",
+    "artifact": "audioaware_wavlm_speech_v2_naturalspeech.zip",
     "task": "Likely real human speech vs likely AI-generated speech",
     "metrics": {},
     "limitations": []
@@ -127,10 +127,10 @@ Example response:
   "speech_ratio": 0.82,
   "threshold_used": 0.3,
   "selected_branch": "speech",
-  "selected_model": "echoguard_wavlm_speech_v2_naturalspeech",
-  "model_name": "EchoGuard WavLM Speech v2 NaturalSpeech",
+  "selected_model": "audioaware_wavlm_speech_v2_naturalspeech",
+  "model_name": "AudioAware WavLM Speech v2 NaturalSpeech",
   "model_version": "speech_v2_naturalspeech",
-  "model_artifact": "echoguard_wavlm_speech_v2_naturalspeech.zip",
+  "model_artifact": "audioaware_wavlm_speech_v2_naturalspeech.zip",
   "model_path": "backend/models/speech_wavlm_v2_naturalspeech",
   "prediction": "fake",
   "display_label": "Likely AI-Generated",
@@ -145,7 +145,7 @@ Example response:
   "metrics": {},
   "limitations": [],
   "key_limitation": "Tuned for native English speaker audio and modern AI-generated voice samples.",
-  "note": "EchoGuard AI provides probabilistic screening results only.",
+  "note": "AudioAware AI provides probabilistic screening results only.",
   "spectrogram_png": "base64-png-data"
 }
 ```
@@ -195,7 +195,7 @@ Empty upload:
 Missing model artifact during startup:
 
 ```text
-FileNotFoundError: Missing model artifact: .../backend/models/artifacts/echoguard_wavlm_speech_v2_naturalspeech.zip
+FileNotFoundError: Missing model artifact: .../backend/models/artifacts/audioaware_wavlm_speech_v2_naturalspeech.zip
 ```
 
 ## Related docs

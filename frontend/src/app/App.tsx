@@ -3,7 +3,7 @@ import { AlertCircle } from "lucide-react";
 import { INFO_PAGE_KEYS, type InfoPageKey } from "../content";
 import { FrequencyTimeView, ResultCard, UploadCard } from "../features/analysis";
 import { Hero, Limitations, ModelStack, RouterExplainer } from "../features/home";
-import { Footer, Navbar, SoftBackground } from "../layout";
+import { Footer, Navbar } from "../layout";
 import { InfoPage } from "../pages";
 import { predictAudio, type PredictionResult } from "../services";
 const HOME_PAGE = "home";
@@ -125,7 +125,6 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <SoftBackground />
       <Navbar
         onHomeClick={openHome}
         onAnalyzeClick={() => openSection(() => analyzeRef.current)}
@@ -181,7 +180,7 @@ export default function App() {
                 <span className="eyebrow">FAQ guide</span>
                 <h2>Most Obvious Questions</h2>
                 <p>
-                  Quick answers about what EchoGuard AI can and cannot tell you.
+                  Quick answers about what AudioAware AI can and cannot tell you.
                 </p>
               </div>
               <Limitations />

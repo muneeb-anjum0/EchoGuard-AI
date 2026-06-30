@@ -1,6 +1,6 @@
-# EchoGuard AI model metrics
+# AudioAware AI model metrics
 
-This file is the detailed evaluation reference for EchoGuard AI. The README keeps the summary short; this document keeps the full tables and interpretation notes.
+This file is the detailed evaluation reference for AudioAware AI. The README keeps the summary short; this document keeps the full tables and interpretation notes.
 
 ## Summary
 
@@ -15,8 +15,8 @@ This file is the detailed evaluation reference for EchoGuard AI. The README keep
 
 ## Speech branch: WavLM Speech v2 NaturalSpeech
 
-- Model: EchoGuard WavLM Speech v2 NaturalSpeech
-- Artifact: `echoguard_wavlm_speech_v2_naturalspeech.zip`
+- Model: AudioAware WavLM Speech v2 NaturalSpeech
+- Artifact: `audioaware_wavlm_speech_v2_naturalspeech.zip`
 - Base: `microsoft/wavlm-base`
 - Input format: 4 seconds, 16 kHz, mono, 16-bit WAV
 - Task: likely real human speech vs likely AI-generated speech
@@ -74,8 +74,8 @@ The full unseen result is the honest speech benchmark. The model is strong when 
 
 ## Environmental branch: AST EnvSDD
 
-- Model: EchoGuard AST EnvSDD Environmental Audio Model
-- Artifact: `echoguard_ast_shard001.zip`
+- Model: AudioAware AST EnvSDD Environmental Audio Model
+- Artifact: `audioaware_ast_shard001.zip`
 - Base: `MIT/ast-finetuned-audioset-10-10-0.4593`
 - Dataset: EnvSDD Environmental Sound Deepfake Detection
 - Task: likely real environmental/background audio vs likely AI-generated environmental/background audio
@@ -138,6 +138,6 @@ The environmental branch performs strongly on EnvSDD-style data and general back
 - Precision tells you how often fake predictions were correct
 - Recall tells you how many fake clips were actually caught
 - Accuracy alone can hide concentrated failure cases
-- EchoGuard output should still be treated as a model estimate, not proof
+- AudioAware output should still be treated as a model estimate, not proof
 
 Back to [README](../README.md).

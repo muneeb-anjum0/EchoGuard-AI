@@ -9,47 +9,6 @@
   }
 }
 
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes wash-drift {
-  to {
-    transform: translate3d(8vw, 5vh, 0);
-  }
-}
-
-@keyframes trace-draw {
-  from {
-    stroke-dashoffset: 520;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes shine {
-  to {
-    transform: translateX(130%) skewX(-18deg);
-  }
-}
-
 @keyframes bar-grow {
   from {
     width: 0;
@@ -62,15 +21,14 @@
   }
 }
 
-@keyframes state-dot {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
+@keyframes faq-answer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -2px, 0);
   }
-  50% {
-    transform: scale(1.35);
-    opacity: 0.55;
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -89,7 +47,7 @@
   50%,
   53% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
@@ -110,7 +68,7 @@
   59%,
   62% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
@@ -127,7 +85,7 @@
   20%,
   23% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
@@ -144,7 +102,7 @@
   29%,
   32% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
@@ -161,7 +119,7 @@
   68%,
   71% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
@@ -178,7 +136,7 @@
   77%,
   80% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
@@ -199,8 +157,7 @@
   86%,
   89% {
     stroke: var(--flow-arrow-active);
-    stroke-width: 1.75;
+    stroke-width: 1.85;
     filter: var(--flow-arrow-glow);
   }
 }
-

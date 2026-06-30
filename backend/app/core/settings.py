@@ -1,6 +1,6 @@
 from pathlib import Path
 
-APP_NAME = "EchoGuard AI"
+APP_NAME = "AudioAware AI"
 SAMPLE_RATE = 16_000
 SPEECH_THRESHOLD = 0.30
 UNCERTAIN_MARGIN = 0.12
@@ -13,7 +13,7 @@ MODEL_ARTIFACT_DIR = MODEL_ROOT / "artifacts"
 TEMP_UPLOAD_DIR = BACKEND_DIR / "temp_uploads"
 
 DISCLAIMER = (
-    "EchoGuard AI provides probabilistic screening results only. It does not verify, prove, "
+    "AudioAware AI provides probabilistic screening results only. It does not verify, prove, "
     "or certify whether audio is real or fake. Results should not be used as the sole basis "
     "for legal, disciplinary, emergency, or safety-critical decisions."
 )

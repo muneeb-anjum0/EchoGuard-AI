@@ -5,7 +5,7 @@ if ($LASTEXITCODE -ne 0) {
   exit 1
 }
 
-Write-Host "Using Python $pythonVersion for EchoGuard AI backend."
+Write-Host "Using Python $pythonVersion for AudioAware AI backend."
 py -3.11 -m venv .venv
 $venvPython = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
 

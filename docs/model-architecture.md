@@ -1,6 +1,6 @@
-# EchoGuard AI model architecture
+# AudioAware AI model architecture
 
-EchoGuard AI uses a two-branch local inference pipeline. The app does not try to prove authenticity; it estimates it.
+AudioAware AI uses a two-branch local inference pipeline. The app does not try to prove authenticity; it estimates it.
 
 ## High-level flow
 
@@ -31,21 +31,21 @@ If a clip is close to the threshold, the router can label the decision as `uncer
 
 ## Speech branch
 
-- Model: EchoGuard WavLM Speech v2 NaturalSpeech
+- Model: AudioAware WavLM Speech v2 NaturalSpeech
 - Base model: `microsoft/wavlm-base`
-- Artifact: `echoguard_wavlm_speech_v2_naturalspeech.zip`
+- Artifact: `audioaware_wavlm_speech_v2_naturalspeech.zip`
 - Extracted target: `backend/models/speech_wavlm_v2_naturalspeech`
 - Labels: `0 = real`, `1 = fake`
 - Focus: native English speech and modern AI-generated voice styles
 
-The older `echoguard_wavlm_speech_shard001.zip` file is not the active speech artifact for this app path.
+The older `audioaware_wavlm_speech_shard001.zip` file is not the active speech artifact for this app path.
 
 ## Environmental branch
 
-- Model: EchoGuard AST EnvSDD Environmental Audio Model
+- Model: AudioAware AST EnvSDD Environmental Audio Model
 - Base model: `MIT/ast-finetuned-audioset-10-10-0.4593`
 - Dataset: EnvSDD Environmental Sound Deepfake Detection
-- Artifact: `echoguard_ast_shard001.zip`
+- Artifact: `audioaware_ast_shard001.zip`
 - Extracted target: `backend/models/environmental_ast_envsdd`
 - Labels: `0 = real`, `1 = fake`
 
@@ -85,7 +85,7 @@ Raw probabilities stay visible even when the final display label is `Uncertain`.
 
 ## Positioning and limitations
 
-EchoGuard AI should be described as:
+AudioAware AI should be described as:
 
 - probabilistic screening
 - model estimate
